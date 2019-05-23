@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Detour Translator</title>
+  </head>
+  <body>
+    <header class="DT-header">
+      <h1 class="DT-header-title">번역기 우회 텍스트 입력기</h1>
+    </header>
+    <main class="DT-main">
+      <section class="DT-main__inputBox">
+        <textarea
+          name="input box"
+          id="inputBox"
+          cols="30"
+          rows="10"
+          placeholder="텍스트를 입력하세요"
+        ></textarea>
+        <input id="transformButton" type="button" value="변환하기" />
+      </section>
+      <section class="DT-main__inputBox">
+        <textarea
+          name="output box"
+          id="outputBox"
+          cols="30"
+          rows="10"
+          placeholder="변환버튼을 누르면 결과가 표시됩니다"
+        ></textarea>
+        <input id="copyButton" type="button" value="복사하기" />
+      </section>
+    </main>
+    <script src="transform.js"></script>
+  </body>
+</html>
