@@ -70,7 +70,9 @@ const handleTransform = function(arr) {
 };
 
 const handleGetData = function() {
-  var text = textInput.value.split(" ");
+  var re = /\s+|\\n+/;
+  var text = textInput.value.split(re);
+  console.log(text);
   handleTransform(text);
 };
 
