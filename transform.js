@@ -5,6 +5,10 @@ const copyButton = document.getElementById("copyButton");
 
 const ASCII_GAP = 588;
 
+const asciiToLetter = function(str) {
+  return String.fromCharCode(str.charCodeAt() + ASCII_GAP);
+};
+
 const range = function(start, end) {
   var result = [];
   for (var i = start; i < end; i++) {
@@ -49,18 +53,19 @@ const randomLetter = function(str) {
 const handleTransform = function(arr) {
   arr.forEach(function(item, index) {
     if (item.length > 3) {
-      var firstLetter = item.charAt(0);
-      var lastLetter =
-        item.charAt(item.length - 1) === ("." || "," || "!" || "?")
-          ? item.charAt(item.length - 2)
-          : item.charAt(item.length - 1);
+      var firstLetter = asciiCheck(item.charAt(0))
+        ? asciiToLetter(item.charAt(0))
+        : item.charAt(0);
+      var lastLetter = asciiCheck(item.charAt(item.length - 1))
+        ? asciiToLetter(item.charAt(item.length - 1))
+        : item.charAt(item.length - 1);
       var middleLetter = item.slice(1, item.lastIndexOf(lastLetter));
       arr[index] = `${firstLetter}${randomLetter(middleLetter)}${lastLetter}`;
     } else {
       var array = item.split("");
       for (var i = 0; i < array.length; i++) {
         if (asciiCheck(array[i])) {
-          array[i] = String.fromCharCode(array[i].charCodeAt() + ASCII_GAP);
+          array[i] = asciiToLetter(array[i]);
         }
       }
       arr[index] = array.join("");
@@ -70,7 +75,7 @@ const handleTransform = function(arr) {
 };
 
 const handleGetData = function() {
-  var re = /\s+|\\n+/;
+  var re = /\s+|\\n+|\.+|\,+|\!+|\?+/;
   var text = textInput.value.split(re);
   console.log(text);
   handleTransform(text);
