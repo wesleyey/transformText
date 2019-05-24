@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="styles.css" />
     <title>Detour Translator</title>
   </head>
   <body>
@@ -13,23 +14,30 @@
     <main class="DT-main">
       <section class="DT-main__inputBox">
         <textarea
+          class="textarea"
           name="input box"
           id="inputBox"
-          cols="30"
+          cols="50"
           rows="10"
           placeholder="텍스트를 입력하세요"
         ></textarea>
-        <input id="transformButton" type="button" value="변환하기" />
+        <input
+          class="button"
+          id="transformButton"
+          type="button"
+          value="변환하기"
+        />
       </section>
       <section class="DT-main__inputBox">
         <textarea
+          class="textarea"
           name="output box"
           id="outputBox"
-          cols="30"
+          cols="50"
           rows="10"
           placeholder="변환버튼을 누르면 결과가 표시됩니다"
         ></textarea>
-        <input id="copyButton" type="button" value="복사하기" />
+        <input class="button" id="copyButton" type="button" value="복사하기" />
       </section>
     </main>
     <script src="transform.js"></script>
