@@ -1,14 +1,52 @@
-var transformButton = document.getElementById("transformButton");
-var textInput = document.getElementById("inputBox");
-var textOutput = document.getElementById("outputBox");
+const transformButton = document.getElementById("transformButton");
+const textInput = document.getElementById("inputBox");
+const textOutput = document.getElementById("outputBox");
+const copyButton = document.getElementById("copyButton");
 
-var randomLetter = function(str) {
-  var arr = str.split("");
-  arr = arr.reverse();
-  return arr.join("");
+const ASCII_GAP = 588;
+
+const range = function(start, end) {
+  var result = [];
+  for (var i = start; i < end; i++) {
+    result.push(i);
+  }
+  return result;
 };
 
-var handleTransform = function(arr) {
+const ascii = [
+  range(44032, 44619),
+  range(45796, 46383),
+  range(48232, 48735),
+  range(49324, 49911),
+  range(51088, 51675)
+];
+
+const asciiCheck = function(str) {
+  for (var i = 0; i < ascii.length; i++) {
+    if (ascii[i].includes(str.charCodeAt())) {
+      return true;
+    }
+  }
+};
+
+const randomLetter = function(str) {
+  var strMiddle = Math.round(str.length / 2 - 1);
+  if (str.length < 3) {
+    var arr = str.split("");
+    arr = arr.reverse();
+    return arr.join("");
+  } else if (str.length > 3 && str.length % 2 === 0) {
+    return `${str.slice(0, strMiddle)}${str.charAt(strMiddle + 1)}${str.charAt(
+      strMiddle
+    )}${str.slice(strMiddle + 2)}`;
+  } else {
+    return `${str.slice(0, strMiddle)}${str.charAt(strMiddle + 1)}${str.charAt(
+      strMiddle
+    )}${str.slice(strMiddle + 2)}`;
+  }
+};
+
+const handleTransform = function(arr) {
   arr.forEach(function(item, index) {
     if (item.length > 3) {
       var firstLetter = item.charAt(0);
@@ -21,7 +59,9 @@ var handleTransform = function(arr) {
     } else {
       var array = item.split("");
       for (var i = 0; i < array.length; i++) {
-        array[i] = String.fromCharCode(array[i].charCodeAt() + 588);
+        if (asciiCheck(array[i])) {
+          array[i] = String.fromCharCode(array[i].charCodeAt() + ASCII_GAP);
+        }
       }
       arr[index] = array.join("");
     }
@@ -29,9 +69,16 @@ var handleTransform = function(arr) {
   });
 };
 
-var handleGetData = function() {
+const handleGetData = function() {
   var text = textInput.value.split(" ");
   handleTransform(text);
 };
 
+const handleCopy = function() {
+  textOutput.select();
+  document.execCommand("copy");
+  alert("복사되었습니다.");
+};
+
 transformButton.addEventListener("click", handleGetData);
+copyButton.addEventListener("click", handleCopy);
