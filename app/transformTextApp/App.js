@@ -1,5 +1,12 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  Clipboard
+} from "react-native";
 
 export default class App extends Component {
   _ASCII_GAP = 588;
@@ -83,9 +90,11 @@ export default class App extends Component {
   };
 
   _handleCopy = () => {
-    textOutput.select();
-    document.execCommand("copy");
+    Clipboard.setString(`${this.state.textOutput}`);
     alert("복사되었습니다.");
+    this.setState({
+      textOutput: null
+    });
   };
 
   state = {
@@ -104,48 +113,47 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>번역방지 텍스트 변환기</Text>
-        <TextInput
-          style={styles.textarea}
-          multiline={true}
-          numberOfLines={4}
-          placeholder={"  텍스트를 입력하세요!!"}
-          textAlignVertical="top"
-          onChangeText={text => {
-            this.setState({ textInput: text });
-            console.log(this.state.textInput);
-          }}
-        />
-        <Button
-          style={styles.button}
-          title="변환하기"
-          color="#0E94F6"
-          onPress={this._handleGetData}
-        />
+        <View style={styles.textInputContainer}>
+          <TextInput
+            style={styles.textarea}
+            multiline={true}
+            numberOfLines={4}
+            placeholder={"텍스트를 입력하세요!!"}
+            textAlignVertical="top"
+            onChangeText={text => {
+              this.setState({ textInput: text });
+              console.log(this.state.textInput);
+            }}
+          />
+        </View>
+        <TouchableOpacity style={styles.button} onPress={this._handleGetData}>
+          <Text style={styles.buttonText}>변환하기</Text>
+        </TouchableOpacity>
         {this.state.textOutput === null ? (
-          <TextInput
-            style={styles.textarea}
-            multiline={true}
-            numberOfLines={4}
-            textAlignVertical="top"
-            placeholder={"  변환버튼을 누르면 결과가 표시됩니다."}
-          />
+          <View style={styles.textInputContainer}>
+            <TextInput
+              style={styles.textarea}
+              multiline={true}
+              numberOfLines={4}
+              textAlignVertical="top"
+              placeholder={"변환버튼을 누르면 결과가 표시됩니다."}
+            />
+          </View>
         ) : (
-          <TextInput
-            style={styles.textarea}
-            multiline={true}
-            numberOfLines={4}
-            textAlignVertical="top"
-            value={this.state.textOutput}
-          />
+          <View style={styles.textInputContainer}>
+            <TextInput
+              style={styles.textarea}
+              multiline={true}
+              numberOfLines={4}
+              textAlignVertical="top"
+              value={this.state.textOutput}
+            />
+          </View>
         )}
-
-        <Button
-          style={styles.button}
-          title="복사하기"
-          color="#0E94F6"
-          onPress={this._handleCopy}
-        />
-        <View style={styles.ad} />
+        <TouchableOpacity style={styles.button} onPress={this._handleCopy}>
+          <Text style={styles.buttonText}>복사하기</Text>
+        </TouchableOpacity>
+        <View style={styles.decoImage} />
       </View>
     );
   }
@@ -153,6 +161,7 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: "#F5FCFF"
   },
   title: {
@@ -160,20 +169,34 @@ const styles = StyleSheet.create({
     fontSize: 40,
     paddingTop: 40
   },
-  textarea: {
+  textInputContainer: {
     width: 370,
     borderWidth: 3,
     borderColor: "#2057A8",
-    fontSize: 20,
     marginTop: 20,
     marginBottom: 5,
+    borderRadius: 10,
+    alignSelf: "center"
+  },
+  textarea: {
+    width: 350,
+    fontSize: 20,
     alignSelf: "center",
-    borderRadius: 10
+    paddingTop: 5,
+    paddingBottom: 5
   },
   button: {
-    width: 370,
-    alignSelf: "center",
-    borderRadius: 10
+    width: 100,
+    marginRight: 30,
+    alignSelf: "flex-end",
+    borderRadius: 10,
+    backgroundColor: "#0E94F6"
   },
-  ad: {}
+  buttonText: {
+    paddingTop: 3,
+    paddingBottom: 3,
+    color: "white",
+    alignSelf: "center"
+  },
+  decoImage: {}
 });
