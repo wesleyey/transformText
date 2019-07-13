@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  Clipboard
-} from "react-native";
+import { StyleSheet, Text, View, Clipboard } from "react-native";
+import Textarea from "./Textarea";
+import Button from "./Button";
 
 export default class App extends Component {
   _ASCII_GAP = 588;
@@ -113,46 +108,19 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>번역방지 텍스트 변환기</Text>
-        <View style={styles.textInputContainer}>
-          <TextInput
-            style={styles.textarea}
-            multiline={true}
-            numberOfLines={4}
-            placeholder={"텍스트를 입력하세요!!"}
-            textAlignVertical="top"
-            onChangeText={text => {
-              this.setState({ textInput: text });
-              console.log(this.state.textInput);
-            }}
-          />
-        </View>
-        <TouchableOpacity style={styles.button} onPress={this._handleGetData}>
-          <Text style={styles.buttonText}>변환하기</Text>
-        </TouchableOpacity>
+        <Textarea
+          placeholder={"텍스트를 입력하세요!!"}
+          onChangeText={text => {
+            this.setState({ textInput: text });
+          }}
+        />
+        <Button onPress={this._handleGetData} title={"변환하기"} />
         {this.state.textOutput === null ? (
-          <View style={styles.textInputContainer}>
-            <TextInput
-              style={styles.textarea}
-              multiline={true}
-              numberOfLines={4}
-              textAlignVertical="top"
-              placeholder={"변환버튼을 누르면 결과가 표시됩니다."}
-            />
-          </View>
+          <Textarea placeholder={"변환버튼을 누르면 결과가 표시됩니다."} />
         ) : (
-          <View style={styles.textInputContainer}>
-            <TextInput
-              style={styles.textarea}
-              multiline={true}
-              numberOfLines={4}
-              textAlignVertical="top"
-              value={this.state.textOutput}
-            />
-          </View>
+          <Textarea value={this.state.textOutput} />
         )}
-        <TouchableOpacity style={styles.button} onPress={this._handleCopy}>
-          <Text style={styles.buttonText}>복사하기</Text>
-        </TouchableOpacity>
+        <Button onPress={this._handleCopy} title={"복사하기"} />
         <View style={styles.decoImage} />
       </View>
     );
@@ -168,35 +136,6 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontSize: 40,
     paddingTop: 40
-  },
-  textInputContainer: {
-    width: 370,
-    borderWidth: 3,
-    borderColor: "#2057A8",
-    marginTop: 20,
-    marginBottom: 5,
-    borderRadius: 10,
-    alignSelf: "center"
-  },
-  textarea: {
-    width: 350,
-    fontSize: 20,
-    alignSelf: "center",
-    paddingTop: 5,
-    paddingBottom: 5
-  },
-  button: {
-    width: 100,
-    marginRight: 30,
-    alignSelf: "flex-end",
-    borderRadius: 10,
-    backgroundColor: "#0E94F6"
-  },
-  buttonText: {
-    paddingTop: 3,
-    paddingBottom: 3,
-    color: "white",
-    alignSelf: "center"
   },
   decoImage: {}
 });
