@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, View, Clipboard } from "react-native";
+import { StyleSheet, Text, View, Clipboard, Image } from "react-native";
 import Textarea from "./Textarea";
 import Button from "./Button";
 
@@ -86,10 +86,17 @@ export default class App extends Component {
 
   _handleCopy = () => {
     Clipboard.setString(`${this.state.textOutput}`);
-    alert("복사되었습니다.");
+    alert(this._isKorea() ? "복사되었습니다." : "Copy to clipboard");
     this.setState({
       textOutput: null
     });
+  };
+
+  _isKorea = () => {
+    const { language } = this.state;
+    if (language === "ko-KR" || "ko") {
+      return true;
+    }
   };
 
   state = {
@@ -107,21 +114,52 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>번역방지 텍스트 변환기</Text>
+        <Text style={styles.title}>
+          {this._isKorea() ? "번역방지 텍스트 변환기" : "Manipulate text"}
+        </Text>
         <Textarea
-          placeholder={"텍스트를 입력하세요!!"}
+          placeholder={
+            this._isKorea() ? "텍스트를 입력하세요!!" : "Type your text here."
+          }
           onChangeText={text => {
             this.setState({ textInput: text });
           }}
         />
-        <Button onPress={this._handleGetData} title={"변환하기"} />
+        <Button
+          onPress={this._handleGetData}
+          title={this._isKorea() ? "변환하기" : "Manipulate"}
+        />
         {this.state.textOutput === null ? (
-          <Textarea placeholder={"변환버튼을 누르면 결과가 표시됩니다."} />
+          <Textarea
+            placeholder={
+              this._isKorea()
+                ? "변환버튼을 누르면 결과가 표시됩니다."
+                : "Result here."
+            }
+          />
         ) : (
           <Textarea value={this.state.textOutput} />
         )}
-        <Button onPress={this._handleCopy} title={"복사하기"} />
-        <View style={styles.decoImage} />
+        <Button
+          onPress={this._handleCopy}
+          title={this._isKorea() ? "복사하기" : "Copy"}
+        />
+        <View style={styles.imgContainer}>
+          <Image
+            style={styles.decoImage1}
+            source={{
+              uri: "https://img.icons8.com/color/96/000000/google-translate.png"
+              //<a href="https://icons8.com/icon/13647/google-translate">Google Translate icon by Icons8</a>
+            }}
+          />
+          <Image
+            style={styles.decoImage2}
+            source={{
+              uri: "https://img.icons8.com/color/96/000000/ask-question.png"
+              //<a href="https://icons8.com/icon/13720/ask-question">Ask Question icon by Icons8</a>
+            }}
+          />
+        </View>
       </View>
     );
   }
@@ -130,12 +168,30 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5FCFF"
+    backgroundColor: "#FBFDFF"
   },
   title: {
     alignSelf: "center",
     fontSize: 40,
-    paddingTop: 40
+    paddingTop: 40,
+    color: "#082133"
   },
-  decoImage: {}
+  imgContainer: {
+    flex: 1,
+    flexDirection: "row",
+    backgroundColor: "#FBFDFF",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  decoImage1: {
+    width: 150,
+    height: 120
+  },
+  decoImage2: {
+    position: "relative",
+    top: -70,
+    left: -25,
+    width: 100,
+    height: 80
+  }
 });

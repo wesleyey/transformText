@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   textInputContainer: {
     width: 370,
     borderWidth: 3,
-    borderColor: "#2057A8",
+    borderColor: "#5DBAFC",
     marginTop: 20,
     marginBottom: 5,
     borderRadius: 10,

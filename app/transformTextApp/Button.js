@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     alignSelf: "flex-end",
     borderRadius: 10,
-    backgroundColor: "#0E94F6"
+    backgroundColor: "#028BEC"
   },
   buttonText: {
     paddingTop: 3,
